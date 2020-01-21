@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "monkey.c"
+#include "monkey.h"
+
+int tests_run = 0;
 
 #define FAIL() printf("\nfailure in %s() line %d\n", __func__, __LINE__)
 #define _assert(test) do { if (!(test)) { FAIL(); return 1; } } while(0)
 #define _verify(test) do { int r=test(); tests_run++; if(r) return r; } while(0)
-
-int testsRun = 0;
 
 char *input = "=+(){},;";
 
@@ -20,12 +20,13 @@ Token tokens[] = {
 	{RBRACE, "}"},
 	{COMMA, ","},
 	{SEMICOLON, ";"},
-	{EOF, ""}
-}
+	{_EOF, ""}
+};
 
 int testNextToken(){
 	Token t;
-	Lexer l = newLexer(input);
+	Lexer l; 
+	newLexer(&l, input);
 	int i = 0;
 	int n = sizeof(tokens) / sizeof(tokens[0]);
 	for (int i = 0; i < n; ++i)
@@ -34,6 +35,7 @@ int testNextToken(){
 		_assert(t.tokenType == tokens[i].tokenType);
 		_assert(t.literal == tokens[i].literal);
 	}
+	return 0;
 }
 
 

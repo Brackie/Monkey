@@ -1,23 +1,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "token.c"
+#include "monkey.h"
 
 
-Lexer * newLexer(char *input){
-	Lexer l;
-	l.input = input;
-	l.position = 0;
-	l.readPosition = l.position;
-	l.ch = readChar(&l);
-	return &l;
+void newLexer(Lexer *l, char *input){
+	l->input = input;
+	l->position = 0;
+	l->readPosition = l->position;
+	readChar(l);
 }
 
 void readChar(Lexer *l){
-	if(l->readPosition >= strlen(l.input))
-		l.ch = 0;
+	if(l->readPosition >= strlen(l->input))
+		l->ch = 0;
 	else
-		l.ch = l.input[l.readPosition];
-	l.position = l.readPosition;
-	l.readPosition += 1;
+		l->ch = &l->input[l->readPosition];
+	l->position = l->readPosition;
+	l->readPosition += 1;
 }

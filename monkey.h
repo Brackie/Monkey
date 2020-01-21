@@ -4,7 +4,7 @@
 enum Symbols
 {
 	ILLEGAL = -1,
-	EOF = 0,
+	_EOF = 0,
 
 	// Identifiers + Literals
 	INDENT = 1,
@@ -15,7 +15,7 @@ enum Symbols
 	PLUS = 4,
 
 	// Delimeters
-	COMA = 5,
+	COMMA = 5,
 	SEMICOLON = 6,
 	LPAREN = 7,
 	RPAREN = 8,
@@ -25,7 +25,7 @@ enum Symbols
 	// Keywords
 	FUNCTION = 11,
 	LET = 12
-}
+};
 
 typedef struct Token{
 
@@ -47,7 +47,7 @@ typedef struct Lexer{
 
 
 // Returns an instance of a new Lexer
-Lexer newLexer(char *input);
+void newLexer(Lexer *l, char *input);
 
 // Helper function to read next character in the input
 void readChar(Lexer *l);

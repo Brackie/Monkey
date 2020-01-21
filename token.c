@@ -3,31 +3,32 @@
 
 #include "monkey.h"
 
+
 void nextToken(Lexer *l, Token *t){
 	switch(l->ch){
 		case '=':
-			newToken(ASSIGN, &lx->ch, t);
+			newToken(ASSIGN, l->ch, t);
 			break;
 		case ';':
-			newToken(SEMICOLON, &lx->ch, t);
+			newToken(SEMICOLON, l->ch, t);
 			break;
 		case '(':
-			newToken(LPAREN, &lx->ch, t);
+			newToken(LPAREN, l->ch, t);
 			break;
 		case ')':
-			newToken(RPAREN, &lx->ch, t);
+			newToken(RPAREN, l->ch, t);
 			break;
 		case ',':
-			newToken(COMMA, &lx->ch, t);
+			newToken(COMMA, l->ch, t);
 			break;
 		case '+':
-			newToken(PLUS, &lx->ch, t);
+			newToken(PLUS, l->ch, t);
 			break;
 		case '{':
-			newToken(LBRACE, &lx->ch, t);
+			newToken(LBRACE, l->ch, t);
 			break;
 		case '}':
-			newToken(RBRACE, &lx->ch, t);
+			newToken(RBRACE, l->ch, t);
 			break;
 		case 0:
 			newToken(EOF, "", t);
