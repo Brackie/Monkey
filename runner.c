@@ -1,12 +1,40 @@
 #include <stdio.h>
-#include "token.c"
+#include <string.h>
+
+#include "monkey.c"
 
 #define FAIL() printf("\nfailure in %s() line %d\n", __func__, __LINE__)
 #define _assert(test) do { if (!(test)) { FAIL(); return 1; } } while(0)
 #define _verify(test) do { int r=test(); tests_run++; if(r) return r; } while(0)
 
+int testsRun = 0;
 
-void testNextToken()
+char *input = "=+(){},;";
+
+Token tokens[] = {
+	{ASSIGN, "="},
+	{PLUS, "+"},
+	{LPAREN, "("},
+	{RPAREN, ")"},
+	{LBRACE, "{"},
+	{RBRACE, "}"},
+	{COMMA, ","},
+	{SEMICOLON, ";"},
+	{EOF, ""}
+}
+
+int testNextToken(){
+	Token t;
+	Lexer l = newLexer(input);
+	int i = 0;
+	int n = sizeof(tokens) / sizeof(tokens[0]);
+	for (int i = 0; i < n; ++i)
+	{
+		nextToken(&l, &t);
+		_assert(t.tokenType == tokens[i].tokenType);
+		_assert(t.literal == tokens[i].literal);
+	}
+}
 
 
 int all_tests() {
