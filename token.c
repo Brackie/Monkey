@@ -1,36 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-typedef struct Token{
+#include "monkey.h"
 
-	string TokenType;
-	
-	string Literal;
+void nextToken(Lexer *l, Token *t){
+	switch(l->ch){
+		case '=':
+			newToken(ASSIGN, &lx->ch, t);
+			break;
+		case ';':
+			newToken(SEMICOLON, &lx->ch, t);
+			break;
+		case '(':
+			newToken(LPAREN, &lx->ch, t);
+			break;
+		case ')':
+			newToken(RPAREN, &lx->ch, t);
+			break;
+		case ',':
+			newToken(COMMA, &lx->ch, t);
+			break;
+		case '+':
+			newToken(PLUS, &lx->ch, t);
+			break;
+		case '{':
+			newToken(LBRACE, &lx->ch, t);
+			break;
+		case '}':
+			newToken(RBRACE, &lx->ch, t);
+			break;
+		case 0:
+			newToken(EOF, "", t);
+			break;
+	}
+}
 
-} Token;
+void newToken(int type, char *lit, Token *t){
+	t->tokenType = type;
+	t->literal = lit;
+}
 
-
-const string ILLEGAL = "ILLEGAL";
-const string EOF = "EOF";
-
-// Identifiers + Literals
-const string INDENT = "INDENT";
-const string INTEGER = "INT";
-
-// Operators
-const string ASSIGN = "ASSIGN";
-const string PLUS = "PLUS";
-
-// Delimeters
-const string COMA = "COMA";
-const string SEMICOLON = "SEMICOLON";
-const string LPAREN = "LPAREN";
-const string RPAREN = "RPAREN";
-const string LBRACE = "LBRACE";
-const string RBRACE = "RBRACE";
-
-// Keywords
-const string FUNCTION = "FUNCTION";
-const string LET = "LET";
 
