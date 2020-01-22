@@ -1,26 +1,53 @@
 #include <stdio.h>
 #include <string.h>
-
 #include "monkey.h"
 
 int tests_run = 0;
-
 #define FAIL() printf("\nfailure in %s() line %d\n", __func__, __LINE__)
 #define _assert(test) do { if (!(test)) { FAIL(); return 1; } } while(0)
 #define _verify(test) do { int r=test(); tests_run++; if(r) return r; } while(0)
 
-char *input = "=+(){},;";
+
+char *input = "let five = 5; let ten = 10; let add = fn(x, y) {x + y;}; let result = add(five, ten);";
 
 Token tokens[] = {
+	{LET, "let"},
+	{IDENTIFIER, "five"},
 	{ASSIGN, "="},
-	{PLUS, "+"},
+	{INTEGER, "5"},
+	{SEMICOLON, ";"},
+	{LET, "let"},
+	{IDENTIFIER, "ten"},
+	{ASSIGN, "="},
+	{INTEGER, "10"},
+	{SEMICOLON, ";"},
+	{LET, "let"},
+	{IDENTIFIER, "add"},
+	{ASSIGN, "="},
+	{FUNCTION, "fn"},
 	{LPAREN, "("},
+	{IDENTIFIER, "x"},
+	{COMMA, ","},
+	{IDENTIFIER, "y"},
 	{RPAREN, ")"},
 	{LBRACE, "{"},
-	{RBRACE, "}"},
-	{COMMA, ","},
+	{IDENTIFIER, "x"},
+	{PLUS, "+"},
+	{IDENTIFIER, "y"},
 	{SEMICOLON, ";"},
-	{_EOF, ""}
+	{RBRACE, "}"},
+	{SEMICOLON, ";"},
+	{LET, "let"},
+	{IDENTIFIER, "result"},
+	{ASSIGN, "="},
+	{IDENTIFIER, "add"},
+	{LPAREN, "("},
+	{IDENTIFIER, "five"},
+	{COMMA, ","},
+	{IDENTIFIER, "ten"},
+	{RPAREN, ")"},
+	{SEMICOLON, ";"},
+	{EOF, ""}
 };
 
 int testNextToken(){
@@ -33,11 +60,10 @@ int testNextToken(){
 	{
 		nextToken(&l, &t);
 		_assert(t.tokenType == tokens[i].tokenType);
-		_assert(t.literal == tokens[i].literal);
+		_assert(*t.literal == *tokens[i].literal);
 	}
 	return 0;
 }
-
 
 int all_tests() {
     _verify(testNextToken);
