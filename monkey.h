@@ -7,7 +7,7 @@ enum Symbols
 	_EOF = 0,
 
 	// Identifiers + Literals
-	INDENT = 1,
+	IDENTIFIER = 1,
 	INTEGER = 2,
 
 	// Operators
@@ -27,10 +27,12 @@ enum Symbols
 	LET = 12
 };
 
+extern const char *LET_IDENT;
+extern const char *FN_IDENT;
+
 typedef struct Token{
 
 	int tokenType;
-	
 	char * literal;
 
 } Token;
@@ -42,9 +44,15 @@ typedef struct Lexer{
 	int readPosition;
 	char * ch;
 
-
 } Lexer;
 
+typedef struct Identifier{
+	
+	char *start;
+	char *end;
+	char *identifier;
+
+} Identifier;
 
 // Returns an instance of a new Lexer
 void newLexer(Lexer *l, char *input);
@@ -57,3 +65,12 @@ void nextToken(Lexer *l, Token *t);
 
 // Helper function to create a new Token
 void newToken(int typ, char *lit, Token *t);
+
+// Function returns the full character sequence for an identifier/keyword
+void readIdentifier(Lexer *l, Identifier *i);
+
+// Function returns the token type of an identifier 
+int lookUpIdentifier(Identifier *i);
+
+// Helper function to check if a character is part of the alphapet
+int isLetter(char c);
