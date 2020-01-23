@@ -43,9 +43,8 @@ void nextToken(Lexer *l, Token *t){
 			break;
 		default:
 			if (isLetter(*l->ch)){
-				Identifier i;
-				readIdentifier(l, &i);
-				int type = lookUpIdentifier(&i);
+				int type = IDENTIFIER;
+				readIdentifier(l, &type);
 				newToken(type, l->ch, t);
 				return;
 			}
@@ -56,6 +55,7 @@ void nextToken(Lexer *l, Token *t){
 
 	}
 	readChar(l);
+	jumpWhiteSpace(l);
 }
 
 void readChar(Lexer *l){
@@ -67,3 +67,8 @@ void readChar(Lexer *l){
 	l->readPosition += 1;
 }
 
+void jumpWhiteSpace(Lexer *l){
+	printf("%c\n", *l->ch);
+	while(*l->ch == ' ' || *l->ch == '\t' || *l->ch == '\n' || *l->ch == '\r')
+		readChar(l);
+}
