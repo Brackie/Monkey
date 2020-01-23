@@ -27,32 +27,24 @@ enum Symbols
 	LET = 12
 };
 
-extern const char *LET_IDENT;
-extern const char *FN_IDENT;
+extern const char LET_IDENT[4];
+extern const char FN_IDENT[3];
 
 typedef struct Token{
 
 	int tokenType;
-	char * literal;
+	char *literal;
 
 } Token;
 
 typedef struct Lexer{
 	
-	char * input;
+	char *input;
 	int position;
 	int readPosition;
-	char * ch;
+	char *ch;
 
 } Lexer;
-
-typedef struct Identifier{
-	
-	char *start;
-	char *end;
-	char *identifier;
-
-} Identifier;
 
 // Returns an instance of a new Lexer
 void newLexer(Lexer *l, char *input);
@@ -67,10 +59,13 @@ void nextToken(Lexer *l, Token *t);
 void newToken(int typ, char *lit, Token *t);
 
 // Function returns the full character sequence for an identifier/keyword
-void readIdentifier(Lexer *l, Identifier *i);
+void readIdentifier(Lexer *l, int *type);
 
 // Function returns the token type of an identifier 
-int lookUpIdentifier(Identifier *i);
+int lookUpIdentifier(char *identifier);
 
 // Helper function to check if a character is part of the alphapet
 int isLetter(char c);
+
+// Helper function to skip whitespaces while lexing
+void jumpWhiteSpace(Lexer *l);
