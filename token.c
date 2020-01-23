@@ -5,8 +5,8 @@
 #include "monkey.h"
 
 
-const char *LET_IDENT = "let";
-const char *FN_IDENT = "fn";
+const char LET_IDENT[4] = "let";
+const char FN_IDENT[3] = "fn";
 
 void newToken(int type, char *lit, Token *t){
 	t->tokenType = type;
@@ -17,25 +17,28 @@ int isLetter(char ch){
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_';
 }
 
-void readIdentifier(Lexer *l, Identifier *i){
+void readIdentifier(Lexer *l, int *type){
 	int j = 0;
-	i->start = l->ch;
+	char *identifier = (char*) malloc(sizeof(char) * 54);
 	while (isLetter(*l->ch)){
-		i->identifier[j] = *l->ch;
+		identifier[j] = *l->ch;
 		j++;
 		readChar(l);
 	}
-	i->end = l->ch - 1;
+	if (!isLetter(*l->ch)){
+		j++;
+		identifier[j] = '\0';
+	}
+	*type = lookUpIdentifier(identifier);
 }
 
-int lookUpIdentifier(Identifier *i){
+int lookUpIdentifier(char *identifier){
 	int type = IDENTIFIER;
-	printf("Start: %c, End: %c, Identifier: %s, Size: %d\n", *i->start, *i->end, i->identifier, (sizeof(i->identifier)/sizeof(i->identifier[0])));
-	if (!strcmp(i->identifier, LET_IDENT))
+	if (!strncmp(identifier, LET_IDENT, sizeof(LET_IDENT))){
 		return LET;
-	else if (!strcmp(i->identifier, FN_IDENT))
+	}
+	else if (!strncmp(identifier, FN_IDENT, sizeof(FN_IDENT))){
 		return FUNCTION;
-	printf("Token Type: %d\n", type);
+	}
 	return type;
 }
-
